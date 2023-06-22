@@ -1,13 +1,16 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'dart:math';
+import 'package:benzin/widgets/card.dart';
 import 'package:flutter/material.dart';
 import 'package:benzin/services/web3client.dart';
 import 'package:benzin/widgets/rain.dart';
 import 'dart:math' as math;
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
-import 'package:benzin/widgets/time.dart';
 import 'package:intl/intl.dart';
+import 'package:logger/logger.dart';
 import 'package:web3dart/web3dart.dart';
+import 'package:benzin/services/currconverter.dart';
 
 void main() {
   runApp(const MyApp());
@@ -55,43 +58,62 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
     _handleRefresh().then((value) {
-      print('Async done');
+      log.i('Async done');
     });
     super.initState();
   }
 
+  final log = Logger();
+  var ethMap = {};
+  var bscMap = {};
+  var posMap = {};
+
   final Key parallaxOne = GlobalKey();
   DateTime nowDate = DateTime.now(); // 30/09/2021 15:54:30
-  String gasPrices = '';
-  String gasPricesOpt = '';
-  var gasPricesPos;
 
   var isLoaded = false;
 
   Future _handleRefresh() async {
-    String responseEth = await Web3RemoteCall().getEthCall() ?? 'Error';
-    String responseOpt = await Web3RemoteCall().getOptCall() ?? 'Error';
+    EtherAmount responseEth = await Web3RemoteCall().getEthCall();
     EtherAmount responsePos = await Web3RemoteCall().getPosCall();
+    var responseBsc = await Web3RemoteCall().postBscCall();
+
+    var usdEthValue = await ConverterApi().getUsdEth();
+    var usdBnbValue = await ConverterApi().getUsdBnb();
+    var usdPosValue = await ConverterApi().getUsdPos();
+
     if (responseEth != 'Error') {
       setState(() {
         isLoaded = true;
-        gasPrices = responseEth;
-        print(gasPrices);
+        ethMap["gweiValue"] = responseEth.getValueInUnitBI(EtherUnit.gwei);
+        ethMap["ethValue"] = ethMap["gweiValue"].toInt() * pow(10, -9);
+        ethMap["usdValue"] =
+            (ethMap["ethValue"] * usdEthValue * 21000).toStringAsFixed(3);
+
+        log.i(ethMap);
       });
     }
-    if (responseOpt != 'Error') {
-      setState(() {
-        isLoaded = true;
-        gasPricesOpt = responseOpt;
-        print(gasPricesOpt);
-      });
-    }
+
     if (responsePos != 'Error') {
       setState(() {
         isLoaded = true;
-        gasPricesPos = responsePos.getInWei;
-        print(gasPricesPos);
+        posMap["gweiValue"] = responsePos.getValueInUnitBI(EtherUnit.gwei);
+        posMap["ethValue"] = posMap["gweiValue"].toInt() * pow(10, -9);
+        posMap["usdValue"] =
+            (posMap["ethValue"] * usdPosValue * 21000).toStringAsFixed(4);
+        log.i(posMap);
       });
+
+      if (responseBsc["result"] != 'Error') {
+        setState(() {
+          isLoaded = true;
+          bscMap["gweiValue"] = int.parse(responseBsc["result"]) * pow(10, -9);
+          bscMap["ethValue"] = bscMap["gweiValue"] * pow(10, -9);
+          bscMap["usdValue"] =
+              (bscMap["ethValue"] * usdBnbValue * 21000).toStringAsFixed(4);
+          log.i(bscMap);
+        });
+      }
     }
   }
 
@@ -101,7 +123,21 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     double res_width = MediaQuery.of(context).size.width;
     double res_height = MediaQuery.of(context).size.height;
-
+    ethMap.addAll({
+      'name': 'Ethereum',
+      'code': 'ETH',
+      'iconLogo': 'assets/images/eth.png'
+    });
+    posMap.addAll({
+      'name': 'Polygon',
+      'code': 'MATIC',
+      'iconLogo': 'assets/images/pos.png'
+    });
+    bscMap.addAll({
+      'name': 'Binance ',
+      'code': 'BNB',
+      'iconLogo': 'assets/images/bsc.png'
+    });
     return Scaffold(
       bottomNavigationBar: GestureDetector(
         onTap: () {
@@ -310,7 +346,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   child: AnimatedContainer(
                     width: 70,
                     height: showdate ? 130 : 0,
-                    color: Color(0xfff7446f),
+                    color: Color(0xfffc523c),
                     duration: Duration(milliseconds: 400),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -402,47 +438,38 @@ class _MyHomePageState extends State<MyHomePage> {
                     child: ListView(
                       children: [
                         Padding(
-                            padding: const EdgeInsets.all(25.0),
+                            padding: const EdgeInsets.all(15.0),
                             child: ClipRRect(
                                 borderRadius: BorderRadius.circular(5),
                                 child: Container(
-                                    height: 120,
-                                    color: Colors.white,
-                                    child: Text(
-                                      'Ethereum Gas : $gasPrices',
-                                      style: TextStyle(
-                                        fontSize: 24,
-                                        color: Colors.black87,
-                                      ),
-                                    )))),
+                                  height: 150,
+                                  color: Colors.white,
+                                  child: Card(
+                                      elevation: 25,
+                                      child: CardWidget(dataMap: ethMap)),
+                                ))),
                         Padding(
-                            padding: const EdgeInsets.all(25.0),
+                            padding: const EdgeInsets.all(15.0),
                             child: ClipRRect(
                                 borderRadius: BorderRadius.circular(5),
                                 child: Container(
-                                    height: 120,
-                                    color: Colors.white,
-                                    child: Text(
-                                      'Optimism Gas : $gasPricesOpt',
-                                      style: TextStyle(
-                                        fontSize: 24,
-                                        color: Colors.black87,
-                                      ),
-                                    )))),
+                                  height: 150,
+                                  color: Colors.white,
+                                  child: Card(
+                                      elevation: 25,
+                                      child: CardWidget(dataMap: bscMap)),
+                                ))),
                         Padding(
-                            padding: const EdgeInsets.all(25.0),
+                            padding: const EdgeInsets.all(15.0),
                             child: ClipRRect(
                                 borderRadius: BorderRadius.circular(5),
                                 child: Container(
-                                    height: 120,
-                                    color: Colors.white,
-                                    child: Text(
-                                      'Polygon Gas : $gasPricesPos Wei',
-                                      style: TextStyle(
-                                        fontSize: 24,
-                                        color: Colors.black87,
-                                      ),
-                                    )))),
+                                  height: 150,
+                                  color: Colors.white,
+                                  child: Card(
+                                      elevation: 25,
+                                      child: CardWidget(dataMap: posMap)),
+                                ))),
                       ],
                     ),
                   ),
