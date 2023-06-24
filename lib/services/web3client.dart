@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:http/http.dart'; //You can also import the browser version
 import 'package:web3dart/web3dart.dart';
 import 'dart:convert';
@@ -55,9 +53,8 @@ class Web3RemoteCall {
       headers: headers,
       body: jsonBody,
     );
-
-    int statusCode = response.statusCode;
-    Map<String, dynamic> bscResponse = jsonDecode(response.body);
+    Map<String, dynamic> bscResponse = {};
+    bscResponse = jsonDecode(response.body);
     return bscResponse;
   }
 }

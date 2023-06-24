@@ -43,6 +43,13 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  flutter_launcher_icons: "^0.13.1"
+  url_launcher: ^6.1.11
+
+flutter_launcher_icons:
+  ios: true
+  android: "launcher_icon"
+  image_path: "assets/icons/pet.png"
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is

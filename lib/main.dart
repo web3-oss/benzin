@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'dart:math';
+import 'package:benzin/widgets/bottomdrawer.dart';
 import 'package:benzin/widgets/card.dart';
 import 'package:flutter/material.dart';
 import 'package:benzin/services/web3client.dart';
@@ -55,10 +56,39 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  var isLoaded = false;
+
   @override
   void initState() {
+    ethMap.addAll({
+      'name': 'Ethereum',
+      'code': 'ETH',
+      'iconLogo': 'assets/images/eth.png',
+      'gweiValue': '30',
+      'ethValue': '',
+      'usdValue': '0.5'
+    });
+    posMap.addAll({
+      'name': 'Polygon',
+      'code': 'MATIC',
+      'iconLogo': 'assets/images/pos.png',
+      'gweiValue': '200',
+      'ethValue': '',
+      'usdValue': '0.0025'
+    });
+    bscMap.addAll({
+      'name': 'Binance ',
+      'code': 'BNB',
+      'iconLogo': 'assets/images/bsc.png',
+      'gweiValue': '3',
+      'ethValue': '',
+      'usdValue': '0.015'
+    });
     _handleRefresh().then((value) {
       log.i('Async done');
+      setState(() {
+        isLoaded = true;
+      });
     });
     super.initState();
   }
@@ -70,8 +100,6 @@ class _MyHomePageState extends State<MyHomePage> {
 
   final Key parallaxOne = GlobalKey();
   DateTime nowDate = DateTime.now(); // 30/09/2021 15:54:30
-
-  var isLoaded = false;
 
   Future _handleRefresh() async {
     EtherAmount responseEth = await Web3RemoteCall().getEthCall();
@@ -123,21 +151,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     double res_width = MediaQuery.of(context).size.width;
     double res_height = MediaQuery.of(context).size.height;
-    ethMap.addAll({
-      'name': 'Ethereum',
-      'code': 'ETH',
-      'iconLogo': 'assets/images/eth.png'
-    });
-    posMap.addAll({
-      'name': 'Polygon',
-      'code': 'MATIC',
-      'iconLogo': 'assets/images/pos.png'
-    });
-    bscMap.addAll({
-      'name': 'Binance ',
-      'code': 'BNB',
-      'iconLogo': 'assets/images/bsc.png'
-    });
+
     return Scaffold(
       bottomNavigationBar: GestureDetector(
         onTap: () {
@@ -150,113 +164,7 @@ class _MyHomePageState extends State<MyHomePage> {
               barrierColor: Colors.black.withAlpha(1),
               backgroundColor: Colors.transparent,
               builder: (builder) {
-                return Container(
-                  height: 600.0,
-                  child: Container(
-                      decoration: const BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(50.0),
-                              topRight: Radius.circular(50.0))),
-                      child: Padding(
-                        padding: EdgeInsets.only(left: 20, right: 20),
-                        child: Column(
-                          children: [
-                            SizedBox(
-                              height: res_height * 0.04,
-                            ),
-                            Row(
-                              children: [
-                                Icon(Icons.info, color: Colors.black, size: 30),
-                                SizedBox(
-                                  width: res_width * 0.04,
-                                ),
-                                Text(
-                                  "About Us",
-                                  style: TextStyle(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.w600),
-                                ),
-                              ],
-                            ),
-                            SizedBox(
-                              height: res_height * 0.04,
-                            ),
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Row(
-                                  children: [
-                                    CircleAvatar(
-                                      backgroundColor:
-                                          Color(0xff763bd7).withOpacity(0.1),
-                                      radius: 25,
-                                      child: Image.asset(
-                                        'assets/images/twitter.png',
-                                        width: 25,
-                                      ),
-                                    ),
-                                    Text(
-                                      "@DrakeShot10559",
-                                      style: TextStyle(
-                                          fontSize: 17,
-                                          fontWeight: FontWeight.w600),
-                                    ),
-                                  ],
-                                ),
-                                SizedBox(height: 20),
-                                Row(
-                                  children: [
-                                    CircleAvatar(
-                                      backgroundColor:
-                                          Color(0xffff5580).withOpacity(0.1),
-                                      radius: 25,
-                                      child: Image.asset(
-                                        'assets/images/github.png',
-                                        width: 25,
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      width: 5,
-                                    ),
-                                    Text(
-                                      "web3-oss/benzin",
-                                      style: TextStyle(
-                                          fontSize: 17,
-                                          fontWeight: FontWeight.w600),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                            SizedBox(
-                              height: res_height * 0.04,
-                            ),
-                            /*Expanded(
-                              child: ListView.builder(
-                                  itemCount: data.length,
-                                  itemBuilder: (context, index) {
-                                    return Column(
-                                      children: [
-                                        SizedBox(
-                                          height: 5,
-                                        ),
-                                        TimeWidget(
-                                          data: data[index],
-                                          active: index == 1,
-                                        ),
-                                        SizedBox(
-                                          height: 5,
-                                        ),
-                                        Divider(color: Colors.grey)
-                                      ],
-                                    );
-                                  }),
-                            )*/
-                          ],
-                        ),
-                      )),
-                );
+                return BottomDrawerWidget();
               }).whenComplete(() {
             setState(() {
               showdate = true;
@@ -333,35 +241,21 @@ class _MyHomePageState extends State<MyHomePage> {
                 borderRadius:
                     BorderRadius.only(bottomLeft: Radius.circular(50)),
                 child: Center(
-                  /*Container(
-                      width: 70,
-                      height: 120,
-                      color: Color(0xffff5580),
-                      child: Icon(
-                        Icons.menu,
-                        color: Colors.white,
-                        size: 30,
-                      ),
-                    ),*/
                   child: AnimatedContainer(
                     width: 70,
                     height: showdate ? 130 : 0,
                     color: Color(0xfffc523c),
                     duration: Duration(milliseconds: 400),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          DateFormat.d().format(nowDate),
-                          style: TextStyle(color: Colors.white, fontSize: 20),
-                        ),
-                        Text(DateFormat.MMM().format(nowDate),
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 25,
-                                fontWeight: FontWeight.bold)),
-                      ],
-                    ),
+                    alignment: Alignment.center,
+                    child: Text(
+                        '\n ' +
+                            DateFormat.d().format(nowDate) +
+                            '\n' +
+                            DateFormat.MMM().format(nowDate),
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 25,
+                            fontWeight: FontWeight.bold)),
                   ),
                 ),
               ),
@@ -379,53 +273,6 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
               ),
             ),
-
-            /*
-            Positioned(
-              right: 0,
-              top: res_height * 0.275,
-              child: Image.asset(
-                'assets/images/girl.png',
-                height: res_height * 0.5,
-              ),
-            ),
-            
-            Positioned(
-              left: 50,
-              top: res_height * 0.175,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: const [
-                  Text(
-                    '19°',
-                    style: TextStyle(fontSize: 50, color: Colors.white),
-                  ),
-                  Text(
-                    'Current Ethereum Gas Price',
-                    style: TextStyle(fontSize: 20, color: Colors.white),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Icon(
-                    Icons.local_gas_station,
-                    color: Colors.white,
-                    size: 40,
-                  )
-                ],
-              ),
-            ),
-            Positioned(
-              bottom: res_height * 0.02,
-              left: 20,
-              child: Text(
-                'Gas Price',
-                style: TextStyle(
-                    fontSize: 30,
-                    color: Colors.black87,
-                    fontWeight: FontWeight.bold),
-              ),
-            ),*/
             Positioned(
                 top: 130,
                 width: res_width * 1,
@@ -480,9 +327,3 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 }
-/*
-var data = [
-  {'time': '09:00 AM', 'temp': '19°'},
-  {'time': '10:00 AM', 'temp': '20°'},
-  {'time': '11:00 AM', 'temp': '21°'},
-];*/
