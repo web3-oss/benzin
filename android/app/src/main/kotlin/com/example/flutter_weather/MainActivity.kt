@@ -1,4 +1,4 @@
-package com.example.benzin
+package com.web3.benzin
 
 import io.flutter.embedding.android.FlutterActivity
 
