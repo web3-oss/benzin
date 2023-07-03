@@ -274,10 +274,10 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
             ),
             Positioned(
-                top: 100,
+                top: 130,
                 width: res_width * 1,
                 child: SizedBox(
-                  height: 800,
+                  height: 900,
                   child: LiquidPullToRefresh(
                     animSpeedFactor: 3,
                     showChildOpacityTransition: false,
@@ -287,9 +287,9 @@ class _MyHomePageState extends State<MyHomePage> {
                         Padding(
                             padding: const EdgeInsets.all(15.0),
                             child: ClipRRect(
-                                borderRadius: BorderRadius.circular(5),
+                                borderRadius: BorderRadius.circular(10),
                                 child: Container(
-                                  height: 150,
+                                  height: 140,
                                   color: Colors.white,
                                   child: Card(
                                       elevation: 25,
@@ -298,9 +298,9 @@ class _MyHomePageState extends State<MyHomePage> {
                         Padding(
                             padding: const EdgeInsets.all(15.0),
                             child: ClipRRect(
-                                borderRadius: BorderRadius.circular(5),
+                                borderRadius: BorderRadius.circular(10),
                                 child: Container(
-                                  height: 150,
+                                  height: 140,
                                   color: Colors.white,
                                   child: Card(
                                       elevation: 25,
@@ -309,9 +309,9 @@ class _MyHomePageState extends State<MyHomePage> {
                         Padding(
                             padding: const EdgeInsets.all(15.0),
                             child: ClipRRect(
-                                borderRadius: BorderRadius.circular(5),
+                                borderRadius: BorderRadius.circular(10),
                                 child: Container(
-                                  height: 150,
+                                  height: 140,
                                   color: Colors.white,
                                   child: Card(
                                       elevation: 25,
