@@ -5,8 +5,8 @@ import 'dart:convert';
 class Web3RemoteCall {
   Future<EtherAmount> getEthCall() async {
     //reloading data from the HTTPS request
-    const ethUrl =
-        "https://eth-mainnet.g.alchemy.com/v2/JOzEFgQfsx-d__b7tUXuEF2jYudxi3Qz";
+    const eth_key = String.fromEnvironment('eth_key');
+    const ethUrl = "https://eth-mainnet.g.alchemy.com/v2/" + eth_key;
     var httpClient = Client();
     var ethClient = Web3Client(ethUrl, httpClient);
     var ethPrice = await ethClient.getGasPrice();
@@ -15,8 +15,8 @@ class Web3RemoteCall {
 
   Future<EtherAmount> getPosCall() async {
     //reloading data from the HTTPS request
-    const posUrl =
-        "https://polygon-mainnet.g.alchemy.com/v2/n6ZvQpps2HtwrK8yNY7Yjibzoyb6aGdk";
+    const poly_key = String.fromEnvironment('eth_key');
+    const posUrl = "https://polygon-mainnet.g.alchemy.com/v2/" + poly_key;
     var httpClient = Client();
     var posClient = Web3Client(posUrl, httpClient);
     var posPrice = await posClient.getGasPrice();
@@ -25,8 +25,11 @@ class Web3RemoteCall {
 
   Future<Map> getBscCall() async {
     //reloading data from the HTTPS request
+    const bsc_get_key = String.fromEnvironment('bsc_get_key');
+
     final bscUrl = Uri.parse(
-        "https://api.bscscan.com/api?module=gastracker&action=gasoracle&apikey=S7PJRSHG38TFDSDSSR2N3Y6B61S8A58H5U");
+        "https://api.bscscan.com/api?module=gastracker&action=gasoracle&apikey=" +
+            bsc_get_key);
     var httpClient = Client();
     var responseUSD = await httpClient.get(bscUrl);
     Map<String, dynamic> bscResponse = jsonDecode(responseUSD.body);
@@ -35,9 +38,10 @@ class Web3RemoteCall {
 
   Future<Map> postBscCall() async {
     //reloading data from the HTTPS request
+    const bsc_post_key = String.fromEnvironment('bsc_post_key');
     final bscUrl = Uri.parse("https://bsc.getblock.io/mainnet/");
     final headers = {
-      'x-api-key': '7ef1a7fe-1449-403d-9f2a-480bf5718761',
+      'x-api-key': bsc_post_key,
       'Content-Type': 'application/json'
     };
     Map<String, dynamic> body = {
