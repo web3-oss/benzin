@@ -68,6 +68,15 @@ class BottomDrawerWidget extends StatelessWidget {
                         ),
                       ),
                       ElevatedButton(
+                        onPressed: mailUrlLaunch,
+                        child: Icon(Icons.email, color: Colors.black, size: 30),
+                        style: ElevatedButton.styleFrom(
+                          shape: CircleBorder(),
+                          padding: EdgeInsets.all(20),
+                          backgroundColor: Colors.white70, // <-- Button color
+                        ),
+                      ),
+                      ElevatedButton(
                         onPressed: GithubUrlLaunch,
                         child: Image.asset(
                           'assets/images/github.png',
@@ -89,8 +98,15 @@ class BottomDrawerWidget extends StatelessWidget {
     );
   }
 
+  final Uri _mailtourl = Uri.parse('mailto:drakeshot10559@gmail.com');
   final Uri _weburl = Uri.parse('https://web3-oss.github.io');
   final Uri _githuburl = Uri.parse('https://github.com/web3-oss/benzin');
+
+  mailUrlLaunch() async {
+    if (!await launchUrl(_mailtourl)) {
+      throw Exception('Could not launch $_mailtourl');
+    }
+  }
 
   webUrlLaunch() async {
     if (!await launchUrl(_weburl)) {
