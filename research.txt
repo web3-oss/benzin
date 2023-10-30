@@ -1,1 +1,17 @@
 define next steps for the Benzin app
+add top 10 usefull blockchain gas price
+- Ethereum
+- Tron 
+- Binance smart chain 
+- Arbitrum 
+- Polygon
+- Optimism 
+- Avalance
+- Solana
+- Base
+- Cronos 
+add landscape mode
+- add scrolling for vertical mode 
+- add horizontal mode with scrolling 
+add notification to the apps
+- Ethereum gas price is below inflationary barrier - 21.6 Gwei 
