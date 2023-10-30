@@ -1,0 +1,41 @@
+
+**Job Title:** Flutter Mobile App Developer
+
+**Location:** Remote work
+
+**Job Type:** Part-time
+
+**Company Description:**
+web3-oasis is an organization commited to build open source softwares and apps for the web3 community. 
+This is an attempt to build series of ios/android apps and web3 softwares to provide service to web3 builders and users.
+
+Our organization is dedicated to leveraging the power of technology to build software solutions that drive positive change and serve the greater good of our community. 
+Through our unwavering commitment to innovation, collaboration, and inclusivity, we strive to create impactful software that addresses critical social, environmental, and economic challenges.
+
+**Responsibilities:**
+- Design, develop, and maintain high-quality mobile applications using Flutter.
+- Collaborate with cross-functional teams to define, design, and ship new features.
+- Optimize applications for maximum speed and scalability.
+- Participate in code reviews to ensure code quality and maintain coding standards.
+- Debug and resolve software defects and issues in a timely manner.
+- Stay up-to-date with emerging trends and technologies in mobile app development.
+- Provide technical guidance and mentorship to other team members.
+
+**Qualifications:**
+- Bachelor's degree in Computer Science, Software Engineering, or a related field (or equivalent experience).
+- Proven experience in mobile app development using Flutter.
+- Strong understanding of Flutter framework, architecture, and best practices.
+- Proficient in Dart programming language.
+- Experience with RESTful APIs and integration of third-party libraries.
+- Familiarity with various design patterns and their application in mobile development.
+- Solid understanding of mobile UI/UX principles and guidelines.
+- Knowledge of version control systems (e.g., Git).
+- Excellent problem-solving and analytical skills.
+- Strong communication and collaboration abilities.
+
+**Desired Skills:**
+- Experience with other mobile development frameworks (e.g., React Native, NativeScript) is a plus.
+- Familiarity with continuous integration and deployment processes.
+- Knowledge of agile development methodologies (e.g., Scrum, Kanban).
+- Experience with automated testing and test-driven development.
+- Portfolio showcasing previous Flutter-based mobile app projects.
